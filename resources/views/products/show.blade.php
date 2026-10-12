@@ -1,0 +1,6 @@
+@extends('layouts.app')
+@section('title', $product->name)
+@section('content')
+<div class="d-flex justify-content-between align-items-center mb-4"><div><a href="{{ route('products.index') }}" class="text-decoration-none">← Products</a><h1 class="h2 fw-bold mt-3 mb-0">{{ $product->name }}</h1></div><a class="btn btn-primary" href="{{ route('products.edit', $product) }}">Edit product</a></div>
+<div class="card card-body"><div class="row g-4"><div class="col-sm-6 col-lg-4"><span class="text-secondary small">SKU</span><div class="fw-semibold">{{ $product->sku }}</div></div><div class="col-sm-6 col-lg-4"><span class="text-secondary small">Category</span><div>{{ $product->category->name }}</div></div><div class="col-sm-6 col-lg-4"><span class="text-secondary small">Supplier</span><div>{{ $product->supplier->name }}</div></div><div class="col-sm-6 col-lg-4"><span class="text-secondary small">Price</span><div>₱{{ number_format($product->price, 2) }}</div></div><div class="col-sm-6 col-lg-4"><span class="text-secondary small">Available stock</span><div><span class="badge {{ $product->stock_quantity < 5 ? 'text-bg-warning' : 'text-bg-success' }}">{{ $product->stock_quantity }}</span></div></div></div></div>
+@endsection

@@ -1,0 +1,15 @@
+@extends('layouts.app')
+@section('title', 'Add Product')
+@section('content')
+<div class="mb-4"><a href="{{ route('products.index') }}" class="text-decoration-none">← Products</a><h1 class="h2 fw-bold mt-3">Add product</h1></div>
+@if ($categories->isEmpty() || $suppliers->isEmpty())<div class="alert alert-warning">Create at least one category and one supplier before adding a product.</div>@endif
+<div class="card card-body p-4"><form method="POST" action="{{ route('products.store') }}">@csrf
+<div class="row g-3"><div class="col-md-6"><label class="form-label required" for="name">Product name</label><input class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{ old('name') }}" required>@error('name')<div class="invalid-feedback">{{ $message }}</div>@enderror</div>
+<div class="col-md-6"><label class="form-label required" for="sku">SKU</label><input class="form-control @error('sku') is-invalid @enderror" id="sku" name="sku" value="{{ old('sku') }}" required>@error('sku')<div class="invalid-feedback">{{ $message }}</div>@enderror</div>
+<div class="col-md-6"><label class="form-label required" for="category_id">Category</label><select class="form-select @error('category_id') is-invalid @enderror" id="category_id" name="category_id" required><option value="">Choose a category</option>@foreach ($categories as $category)<option value="{{ $category->id }}" @selected(old('category_id') == $category->id)>{{ $category->name }}</option>@endforeach</select>@error('category_id')<div class="invalid-feedback">{{ $message }}</div>@enderror</div>
+<div class="col-md-6"><label class="form-label required" for="supplier_id">Supplier</label><select class="form-select @error('supplier_id') is-invalid @enderror" id="supplier_id" name="supplier_id" required><option value="">Choose a supplier</option>@foreach ($suppliers as $supplier)<option value="{{ $supplier->id }}" @selected(old('supplier_id') == $supplier->id)>{{ $supplier->name }}</option>@endforeach</select>@error('supplier_id')<div class="invalid-feedback">{{ $message }}</div>@enderror</div>
+<div class="col-md-6"><label class="form-label required" for="price">Price</label><div class="input-group"><span class="input-group-text">₱</span><input type="number" step="0.01" min="0" class="form-control @error('price') is-invalid @enderror" id="price" name="price" value="{{ old('price') }}" required></div>@error('price')<div class="text-danger small mt-1">{{ $message }}</div>@enderror</div>
+<div class="col-md-6"><label class="form-label required" for="stock_quantity">Opening stock</label><input type="number" min="0" class="form-control @error('stock_quantity') is-invalid @enderror" id="stock_quantity" name="stock_quantity" value="{{ old('stock_quantity', 0) }}" required>@error('stock_quantity')<div class="invalid-feedback">{{ $message }}</div>@enderror</div></div>
+<div class="mt-4"><button class="btn btn-primary" @disabled($categories->isEmpty() || $suppliers->isEmpty())>Save product</button> <a class="btn btn-light" href="{{ route('products.index') }}">Cancel</a></div>
+</form></div>
+@endsection
